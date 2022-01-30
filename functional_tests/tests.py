@@ -72,3 +72,48 @@ class NewVisitorTest(LiveServerTestCase):
         self.wait_for_check_text_in_the_rows('2: Use peacock feathers to make a fly')
         self.wait_for_check_text_in_the_rows('1: Buy peacock feathers')
 
+    def test_multiple_users_can_start_lists_at_diffrent_url(self):
+        # Edith starts a new to-do list
+        self.browser.get(self.live_server_url)
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox.send_keys('Buy peacock feathers')
+        inputbox.send_keys(Keys.ENTER)
+        self.wait_for_check_text_in_the_rows('1: Buy peacock feathers')
+
+        # She notices that her list has a unique url
+        edith_url = self.browser.current_url
+        self.assertRegex(edith_url, '/lists/.+/')
+
+        # Now a new user, Francis, comes along to the site
+        self.browser.quit()
+        self.setUp()
+
+        # Francis visits the home page, there is no sign of Edith's list
+        self.browser.get(self.live_server_url)
+
+        html_page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assrtNotIn('Buy peacock feathers', html_page)
+
+        # Francis starts a new list by entering a new item. He
+        # is less interesting than Edith
+        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox.send_keys('Buy milk')
+        inputbox.send_keys(Keys.ENTER)
+
+        self.wait_for_check_text_in_the_rows('1: Buy milk')
+
+        # Francis gets his own unique URL
+        francis_url = self.browser.current_url 
+        self.assertRegex(francis_url, '/lists/.+/')
+        self.assertNotEqual(francis_url, edith_url)
+
+        # Agian, there is no strace of Edith's list
+        html_page = self.browser.find_element(By.TAG_NAME, 'body').text
+        self.assrtNotIn('Buy peacock feathers', html_page)
+
+        
+        
+
+
+
+
