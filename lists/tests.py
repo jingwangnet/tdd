@@ -13,15 +13,18 @@ class HomePageTest(TestCase):
         self.assertTemplateUsed(response, 'index.html')
 
     def test_can_save_post_request(self):
-        response = self.client.post('/', data={'item_text': 'A new item'})
+        self.client.post('/', data={'item_text': 'A new item'})
      
         self.assertEqual(1, Item.objects.count())
         item = Item.objects.first()
         self.assertEqual(item.text, 'A new item')
 
-        self.assertIn('A new item', response.content.decode())
-        self.assertTemplateUsed(response, 'index.html')
+    def test_redirect_afeter_post_request(self):
+        response = self.client.post('/', data={'item_text': 'A new item'})
 
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], '/')
+     
     def test_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
