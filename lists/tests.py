@@ -25,6 +25,14 @@ class HomePageTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], '/')
      
+    def test_rendering_all_items_on_temlates(self):
+        Item.objects.create(text="item1")
+        Item.objects.create(text="item2")
+
+        response = self.client.get('/')
+        self.assertContains(response, "item1")
+        self.assertContains(response, "item2")
+
     def test_saves_items_when_necessary(self):
         self.client.get('/')
         self.assertEqual(Item.objects.count(), 0)
