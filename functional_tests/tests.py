@@ -33,7 +33,7 @@ class NewVisitorTest(LiveServerTestCase):
                     [row.text for row in rows] 
                 )
                 return 
-            except (AssertionError, WebDrivertException) as e:
+            except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_TIME:
                     raise e
                 time.sleep(0.2)
@@ -92,7 +92,7 @@ class NewVisitorTest(LiveServerTestCase):
         self.browser.get(self.live_server_url)
 
         html_page = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.assrtNotIn('Buy peacock feathers', html_page)
+        self.assertNotIn('Buy peacock feathers', html_page)
 
         # Francis starts a new list by entering a new item. He
         # is less interesting than Edith
@@ -109,7 +109,7 @@ class NewVisitorTest(LiveServerTestCase):
 
         # Agian, there is no strace of Edith's list
         html_page = self.browser.find_element(By.TAG_NAME, 'body').text
-        self.assrtNotIn('Buy peacock feathers', html_page)
+        self.assertNotIn('Buy peacock feathers', html_page)
 
         
         
