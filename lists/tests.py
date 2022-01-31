@@ -52,6 +52,33 @@ class ViewListTest(TestCase):
 
         self.assertTemplateUsed(response, 'view.html')
 
+    def test_passes_list_instance(self):
+        list_ = List.objects.create()
+        response = self.client.get(f'/lists/{list_.pk}/')
+
+        self.assertEqual(response.context['list'], list_)
+
+
+class AddItemTest(TestCase):
+
+    def test_can_save_post_request_for_existing_list(self):
+        list_ = List.objects.create()
+        self.client.post(f'/lists/{list_.pk}/add', data={'item_text': 'A new item'})
+     
+        self.assertEqual(1, Item.objects.count())
+        item = Item.objects.first()
+        self.assertEqual(item.text, 'A new item')
+        self.assertEqual(item.list, list_)
+
+    def test_redirect_afeter_post_request(self):
+        list_ = List.objects.create()
+        response = self.client.post(f'/lists/{list_.pk}/add', data={'item_text': 'A new item'})
+
+        list_ = List.objects.first()
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response['location'], f'/lists/{list_.pk}/')
+
+
 class ListAndItemModelTest(TestCase):
    
     def test_creating_items_and_retreiving_it_later(self):

@@ -13,6 +13,9 @@ def new_list(request):
 
 def view_list(request, pk):
     list_ = List.objects.get(pk=pk)
-    items = Item.objects.filter(list=list_)
-    return render(request, 'view.html', {'items': items})
+    return render(request, 'view.html', {'list': list_})
  
+def add_item(request, pk):
+    list_ = List.objects.get(pk=pk)
+    Item.objects.create(text=request.POST['item_text'], list=list_)
+    return redirect(f'/lists/{list_.pk}/')
