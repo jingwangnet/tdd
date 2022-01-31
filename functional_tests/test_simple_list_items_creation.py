@@ -1,43 +1,10 @@
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.common.exceptions import WebDriverException
-from selenium import webdriver
-from django.test import LiveServerTestCase
 
-import time
+from .base import FunctionalTest
 
 
-MAX_TIME = 5
-
-
-class NewVisitorTest(LiveServerTestCase):
-
-    def setUp(self):
-        options = Options()
-        options.headless = True
-        
-        self.browser = webdriver.Chrome(options=options)
-
-    def tearDown(self):
-        self.browser.quit()
-
-    def wait_for_check_text_in_the_rows(self, text):
-        start_time = time.time()
-        while True:
-            try:
-                table = self.browser.find_element(By.ID, 'id_list_table')
-                rows = table.find_elements(By.TAG_NAME, 'tr')
-                self.assertIn(
-                    text, 
-                    [row.text for row in rows] 
-                )
-                return 
-            except (AssertionError, WebDriverException) as e:
-                if time.time() - start_time > MAX_TIME:
-                    raise e
-                time.sleep(0.2)
-                
+class NewVisitorTest(FunctionalTest):
 
     def test_start_a_list_for_one_user(self):
         # Edith has heard about a cool new oneline to-do app, She goes
@@ -113,35 +80,3 @@ class NewVisitorTest(LiveServerTestCase):
 
         
         
-    def test_layout_and_stlying(self):
-        # Edith goes to the home page
-        self.browser.get(self.live_server_url)
-        self.browser.set_window_size(1024, 756)
-
-        # she notices the inputbox  is necely centered
-        inputbox = self.browser.find_element(By.ID, 'id_new_item')
-
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512, 
-            delta=10
-        )
-
-        # she types something into text box
-        inputbox.send_keys('Buy milk')
-        inputbox.send_keys(Keys.ENTER)
-
-        self.wait_for_check_text_in_the_rows('1: Buy milk')
-
-        # There is still a centered inputbox
-        inputbox = self.browser.find_element(By.ID, 'id_new_item')
-
-        self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
-            512, 
-            delta=10
-        )
-
-
-
-
