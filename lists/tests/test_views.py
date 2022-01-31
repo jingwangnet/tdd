@@ -1,8 +1,6 @@
 from django.test import TestCase
-from django.urls import resolve
-from django.http import HttpRequest
-from .views import home_page
-from .models import Item, List
+from lists.views import home_page
+from lists.models import Item, List
 
 # Create your tests here.
 class HomePageTest(TestCase):
@@ -77,30 +75,3 @@ class AddItemTest(TestCase):
         list_ = List.objects.first()
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], f'/lists/{list_.pk}/')
-
-
-class ListAndItemModelTest(TestCase):
-   
-    def test_creating_items_and_retreiving_it_later(self):
-        list_ = List.objects.create()
-        first_item = Item()
-        first_item.text = "First item"
-        first_item.list = list_
-        first_item.save()
-
-        second_item = Item()
-        second_item.text = "Second item"
-        second_item.list = list_
-        second_item.save()
-
-        self.assertEqual(1, List.objects.count())
-        self.assertEqual(2, Item.objects.count())
-        saved_list = List.objects.first()
-        first_saved_item, second_saved_item = saved_list.item_set.all()
-
-        self.assertEqual(first_saved_item.text, 'First item')
-        self.assertEqual(first_saved_item.list, list_)
-        self.assertEqual(second_saved_item.text, 'Second item')
-        self.assertEqual(second_saved_item.list, list_)
-
-        
