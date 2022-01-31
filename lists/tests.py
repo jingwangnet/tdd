@@ -103,6 +103,4 @@ class ListAndItemModelTest(TestCase):
         self.assertEqual(second_saved_item.text, 'Second item')
         self.assertEqual(second_saved_item.list, list_)
 
-
-
         
