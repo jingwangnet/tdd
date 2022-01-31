@@ -1,0 +1,54 @@
+body {
+    background: #eee;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+}
+
+body > * {
+    width: 500px;
+    max-width: 90vh;
+    text-align: center;
+}
+
+body > h1 {
+    font-size: 3rem;
+}
+
+body > form input {
+    height: 3rem;
+    width: 100%;
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+table {
+   display: block;
+   flex: 1 1 auto;
+   padding: 0.5rem;
+   background: #aaa;
+}
+
+
+table tbody {
+   display: block;
+   padding: 0.5rem;
+}
+
+table tr {
+   display: block;
+   width: auto;
+   margin: 0.5rem;
+   height: 2rem;
+   padding: 0.5rem;
+   font-size: 1.5rem;
+}
+
+table tbody tr:nth-child(even) {
+   background: #ccc;
+}
+table tbody tr:nth-child(odd) {
+   background: #bbb;
+}
