@@ -2,6 +2,9 @@ from django import forms
 from .models import Item
 
 
+EMPTY_ITEM_ERROR = "You can't have an empty item"
+
+
 class ItemForm(forms.ModelForm):
     
     class Meta:
@@ -16,7 +19,7 @@ class ItemForm(forms.ModelForm):
             ),
         }
         error_messages = {
-            'text': {'required': "You can't have an empty item"}
+            'text': {'required': EMPTY_ITEM_ERROR}
         }
 
 

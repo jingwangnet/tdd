@@ -11,8 +11,8 @@
   <form method="POST" action="{% block action %}{% endblock %}">
     {{ form.text }}
     {% csrf_token %}
-    {% if error %}
-    <p class="has-error">You can't have an empty item</p>
+    {% if form.errors %}
+      {{ form.text.errors }}
     {% endif %}
   </form>
   

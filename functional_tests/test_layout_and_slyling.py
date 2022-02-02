@@ -11,7 +11,7 @@ class LayoutAndStylingTest(FunctionalTest):
         self.browser.set_window_size(1024, 756)
 
         # she notices the inputbox  is necely centered
-        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox = self.get_inputbox()
 
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
@@ -26,7 +26,7 @@ class LayoutAndStylingTest(FunctionalTest):
         self.wait_for_check_text_in_the_rows('1: Buy milk')
 
         # There is still a centered inputbox
-        inputbox = self.browser.find_element(By.ID, 'id_new_item')
+        inputbox = self.get_inputbox()
 
         self.assertAlmostEqual(
             inputbox.location['x'] + inputbox.size['width'] / 2,
