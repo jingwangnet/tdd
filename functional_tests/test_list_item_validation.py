@@ -43,6 +43,19 @@ class ItemVlidationTest(FunctionalTest):
         self.wait_for_check_text_in_the_rows('2: Buy vegetables')
         self.wait_for_check_text_in_the_rows('1: Buy milk')
 
+    def test_cannot_add_duplicate_list_items(self):
+        # Edith goes to the home page and starts a new list
+        self.browser.get(self.live_server_url)
+        self.get_inputbox().send_keys('Buy milk')
+        self.get_inputbox().send_keys(Keys.ENTER)
+        self.wait_for_check_text_in_the_rows('1: Buy milk')
 
+        # she accidentally treis to enter a duplicate item
+        self.get_inputbox().send_keys('Buy milk')
+        self.get_inputbox().send_keys(Keys.ENTER)
 
-
+        # she seesa  helpfull error message
+        self.wait_for(lambda: self.assertEqual(
+            self.browser.find_element(By.CSS_SELECTOR, '.has-error').text,
+            "You've alredy got this in your list"
+        ))
