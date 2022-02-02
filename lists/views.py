@@ -2,14 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.core.exceptions import ValidationError
 from .models import Item, List
+from .forms import ItemForm
 
 # Create your views here.
 def home_page(request):
-    return render(request, 'index.html')
+    form = ItemForm()
+    return render(request, 'index.html', {'form': form})
 
 def new_list(request):
     list_ = List.objects.create()
-    item=Item(text=request.POST['item_text'], list=list_)
+    item=Item(text=request.POST['text'], list=list_)
     try:
         item.full_clean()
         item.save()
@@ -23,7 +25,7 @@ def view_list(request, pk):
     list_ = List.objects.get(pk=pk)
     error = None
     if request.method == 'POST':
-        item = Item(text=request.POST['item_text'], list=list_)
+        item = Item(text=request.POST['text'], list=list_)
         try:
            item.full_clean()
            item.save()
