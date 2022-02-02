@@ -20,12 +20,10 @@ def new_list(request):
 
 def view_list(request, pk):
     list_ = List.objects.get(pk=pk)
-    #form = ExistingListItemForm(for_list=list_)
-    form = ItemForm()
+    form = ExistingListItemForm(for_list=list_)
     if request.method == 'POST':
-        #form = ExistingListItemForm(data=request.POST, for_list=list_)
-        form = ItemForm(data=request.POST)
+        form = ExistingListItemForm(data=request.POST, for_list=list_)
         if form.is_valid():
-            form.save(for_list=list_)
+            form.save()
             return redirect(list_)
     return render(request, 'view.html', {'list': list_, 'form': form})
