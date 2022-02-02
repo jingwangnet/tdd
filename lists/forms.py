@@ -1,10 +1,19 @@
 from django import forms
+from .models import Item
 
 
-class ItemForm(forms.Form):
-    text = forms.CharField(
-        widget=forms.fields.TextInput(attrs={
-            'placeholder': "Enter a item list",
-            'class': 'input',
+class ItemForm(forms.ModelForm):
+    
+    class Meta:
+        model = Item
+        fields = ['text',]
+        widgets = {
+            'text': forms.fields.TextInput(
+                attrs={
+                    'placeholder': 'Enter a to-do item',
+                    'class': 'input'
+                }
+            ),
+
         }
-    ))
+
