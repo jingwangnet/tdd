@@ -53,8 +53,9 @@ table tbody tr:nth-child(odd) {
     background: #bbb;
 }
 
-p.has-error {
+p.has-error, ul.errorlist li{
     color: red;
     font-size: 1.2rem;
     font-weight: bold;
+    text-align: left;
 }
