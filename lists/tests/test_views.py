@@ -69,12 +69,9 @@ class ViewListTest(TestCase):
 
         self.assertEqual(response.context['list'], list_)
 
-
-class AddItemTest(TestCase):
-
     def test_can_save_post_request_for_existing_list(self):
         list_ = List.objects.create()
-        self.client.post(f'/lists/{list_.pk}/add', data={'item_text': 'A new item'})
+        self.client.post(f'/lists/{list_.pk}/', data={'item_text': 'A new item'})
      
         self.assertEqual(1, Item.objects.count())
         item = Item.objects.first()
@@ -83,8 +80,19 @@ class AddItemTest(TestCase):
 
     def test_redirect_afeter_post_request(self):
         list_ = List.objects.create()
-        response = self.client.post(f'/lists/{list_.pk}/add', data={'item_text': 'A new item'})
+        response = self.client.post(f'/lists/{list_.pk}/', data={'item_text': 'A new item'})
 
         list_ = List.objects.first()
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], f'/lists/{list_.pk}/')
+
+    def test_validation_error_end_on_view_template(self):
+        list_ = List.objects.create()
+        response = self.client.post(f'/lists/{list_.pk}/', data={'item_text': ''})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'view.html')
+        expect_error = "You can't have an empty item"
+        self.assertContains(response, expect_error)
+
+

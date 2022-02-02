@@ -19,7 +19,6 @@ from . import views
 urlpatterns = [
     path('new', views.new_list, name='new'),
     path('<int:pk>/', views.view_list, name='view'),
-    path('<int:pk>/add', views.add_item, name='add'),
 ]
 
 app_name = 'lists'
