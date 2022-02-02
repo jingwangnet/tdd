@@ -14,6 +14,10 @@ class ItemForm(forms.ModelForm):
                     'class': 'input'
                 }
             ),
-
         }
+        error_messages = {
+            'text': {'required': "You can't have an empty item"}
+        }
+
+
 

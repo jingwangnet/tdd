@@ -7,4 +7,10 @@ class ItemFormTest(TestCase):
         form = ItemForm()
         self.assertIn('placeholder', form.as_p())
         self.assertIn('class="input"', form.as_p())
+
+    def test_ItemForm_validation_for_empty_input(self):
+        form = ItemForm(data={'text': ''})
+        self.assertFalse(form.is_valid())
+        self.assertEqual(form.errors['text'], ["You can't have an empty item"])
+        
         
