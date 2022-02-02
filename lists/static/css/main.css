@@ -25,30 +25,36 @@ body > form input {
 }
 
 table {
-   display: block;
-   flex: 1 1 auto;
-   padding: 0.5rem;
-   background: #aaa;
+    display: block;
+    flex: 1 1 auto;
+    padding: 0.5rem;
+    background: #aaa;
 }
 
 
 table tbody {
-   display: block;
-   padding: 0.5rem;
+    display: block;
+    padding: 0.5rem;
 }
 
 table tr {
-   display: block;
-   width: auto;
-   margin: 0.5rem;
-   height: 2rem;
-   padding: 0.5rem;
-   font-size: 1.5rem;
+    display: block;
+    width: auto;
+    margin: 0.5rem;
+    height: 2rem;
+    padding: 0.5rem;
+    font-size: 1.5rem;
 }
 
 table tbody tr:nth-child(even) {
-   background: #ccc;
+    background: #ccc;
 }
 table tbody tr:nth-child(odd) {
-   background: #bbb;
+    background: #bbb;
+}
+
+p.has-error {
+    color: red;
+    font-size: 1.2rem;
+    font-weight: bold;
 }

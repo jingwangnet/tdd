@@ -27,6 +27,19 @@ class NewListTest(TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response['location'], f'/lists/{list_.pk}/')
 
+    def test_validation_error_sent_back_on_index_template(self):
+        response = self.client.post('/lists/new', data={'item_text': ''})
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'index.html')
+        expect_error = "You can't have an empty item"
+        self.assertContains(response, expect_error)
+
+    def test_do_not_save_invalid_list_item(self):
+        self.client.post('/lists/new', data={'item_text': ''})
+        self.assertEqual(0, Item.objects.count())
+        self.assertEqual(0, List.objects.count())
+
 
 class ViewListTest(TestCase):
 

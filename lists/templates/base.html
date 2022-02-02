@@ -11,7 +11,11 @@
   <form method="POST" action="{% block action %}{% endblock %}">
     <input id="id_new_item" name="item_text" placeholder="Enter a to-do item">
     {% csrf_token %}
+    {% if error %}
+    <p class="has-error">You can't have an empty item</p>
+    {% endif %}
   </form>
+  
   {% block table %}
   {% endblock %}
 </body>
