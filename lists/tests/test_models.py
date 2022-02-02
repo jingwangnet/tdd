@@ -53,6 +53,23 @@ class ListAndItemModelTest(TestCase):
         list_ = List.objects.create()
         self.assertEqual(list_.get_absolute_url(), '/lists/1/')
 
+    def test_list_ordering(self):
+        list1 = List.objects.create()
+        item1 = Item.objects.create(list=list1, text='i1')
+        item2 = Item.objects.create(list=list1, text='item 2')
+        item3 = Item.objects.create(list=list1, text='3')
+        self.assertEqual(
+            list(Item.objects.all()),
+            [item1, item2, item3]
+        )
+
+    def test_str_method(self):
+        list_ = List.objects.create()
+        item = Item.objects.create(list=list_, text='i1')
+
+        self.assertEqual(str(item), item.text)
+
+      
 
     
         
