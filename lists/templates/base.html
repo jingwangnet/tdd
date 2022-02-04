@@ -12,7 +12,7 @@
     {{ form.text }}
     {% csrf_token %}
     {% if form.errors %}
-      {{ form.text.errors }}
+      <div class='has-error'>{{ form.errors }}</div>
     {% endif %}
   </form>
   
