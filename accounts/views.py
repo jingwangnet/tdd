@@ -1,13 +1,20 @@
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from django.contrib import messages
+from django.urls import reverse
+from .models import Token
 
 # Create your views here.
 def send_login_email(request):
     email = request.POST['email']
+    token = Token.objects.create(email=email)
+    url = request.build_absolute_uri(
+        reverse('accounts:login') + '?token=' + str(token.uid)
+    )
+    message_body = f'Use this link to log in:\n\n{url}'
     send_mail(
         'Your login link for Superlists', 
-        'body', 
+        message_body,
         'noreply@superlist', 
         [email]
     )
