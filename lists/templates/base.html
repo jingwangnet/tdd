@@ -7,12 +7,20 @@
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
+  <nav>
+    <a class="nav-bar" href="{% url 'index' %}">Superlists</a>
+    <form method="POST" action="#">
+      <span>Enter email to login in:</span>
+      <input name="email" type="text">
+      {% csrf_token %}
+    </form>
+  </nav>
   <h1>{% block header%}{% endblock %}</h1>
   <form method="POST" action="{% block action %}{% endblock %}">
     {{ form.text }}
     {% csrf_token %}
     {% if form.errors %}
-      <div class='has-error'>{{ form.errors }}</div>
+      <div class='has-error'>{{ form.text.errors }}</div>
     {% endif %}
   </form>
   
