@@ -19,6 +19,7 @@ from . import views
 
 urlpatterns = [
     path('send_login_email', views.send_login_email, name='send'),
+    path('login', views.login, name='login'),
 ]
 
 app_name = 'accounts'
