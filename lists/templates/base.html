@@ -9,12 +9,21 @@
 <body>
   <nav>
     <a class="nav-bar" href="{% url 'index' %}">Superlists</a>
-    <form method="POST" action="#">
+    <form method="POST" action="{% url "accounts:send" %}">
       <span>Enter email to login in:</span>
       <input name="email" type="text">
       {% csrf_token %}
     </form>
   </nav>
+  {% if messages %}
+    {% for message in messages %}
+       {% if message.lever_tag == 'success' %}
+         <div class="alert alert-success">{{ message }}</div>
+       {% else %}
+         <div class="alert alert-warning">{{ message }}</div>
+       {% endif %}
+    {% endfor %}
+  {% endif %}
   <h1>{% block header%}{% endblock %}</h1>
   <form method="POST" action="{% block action %}{% endblock %}">
     {{ form.text }}
