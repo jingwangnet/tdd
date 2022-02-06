@@ -30,3 +30,12 @@ def login(request):
     if user:
         auth.login(request, user)
     return redirect('/')
+
+def logout(request):
+    if request.user.is_authenticated:
+    #   messages.success(
+    #      request,
+    #      f"{request.user.email} alredy quit"
+    #   )
+        auth.logout(request)
+    return redirect('/')

@@ -48,11 +48,6 @@ class SendLoginEmailViewTestCase(TestCase):
         (subject, body, from_email, to_list), kwargs = mock_send_mail.call_args
         self.assertIn(expected_url, body)
 
-         
-        
-
-
-
 @patch('accounts.views.auth')
 class LoginViewTest(TestCase):
 
@@ -79,3 +74,38 @@ class LoginViewTest(TestCase):
         mock_auth.authenticate.return_value = None
         self.client.get('/accounts/login?token=abcd123')
         self.assertEqual(mock_auth.login.called, False)
+
+  
+
+class LogoutiewTest(TestCase):
+
+    def test_rediercts_to_home_page(self):
+        token = Token.objects.create(email='edith@example.com')
+        self.client.get(f'/accounts/login?token={token.uid}', follow=True)
+        response = self.client.get(f'/accounts/login', follow=True)
+        self.assertRedirects(response, '/')
+
+    def test_does_not_displa_email_when_logout(self):
+        token = Token.objects.create(email='edith@example.com')
+        response = self.client.get(f'/accounts/login?token={token.uid}', follow=True)
+        self.assertContains(response, 'edith@example.com')
+        response = self.client.get(f'/accounts/logout', follow=True)
+        self.assertNotContains(response, 'edith@example.com')
+
+    @patch('accounts.views.auth.logout')
+    def test_call_logout(self, mock_logout):
+        token = Token.objects.create(email='edith@example.com')
+        self.client.get(f'/accounts/login?token={token.uid}')
+        response = self.client.get(f'/accounts/logout')
+        self.assertEqual(
+            mock_logout.call_args,
+            call(response.wsgi_request)
+        )
+        
+    @patch('accounts.views.auth')
+    def test_does_not_logout_if_user_is_not_authenticated(self, mock_auth):
+        mock_auth.authenticate.return_value = None
+        self.client.get('/accounts/login?token=abcd123')
+        self.assertEqual(mock_auth.login.called, False)
+        response = self.client.get(f'/accounts/logout', follow=True)
+        self.assertEqual(mock_auth.logout.called, False)

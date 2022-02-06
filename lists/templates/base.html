@@ -7,13 +7,21 @@
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
 </head>
 <body>
-  <nav>
+  <nav class="navbar">
     <a class="nav-bar" href="{% url 'index' %}">Superlists</a>
+  {% if user.email %}
+    <ul>       
+      <li>Logiged in as {{ user.email }}</li>
+      <li><a href="{% url 'accounts:logout' %}">Log out</a></li>
+    </ul>
+
+  {% else %}
     <form method="POST" action="{% url "accounts:send" %}">
       <span>Enter email to login in:</span>
       <input name="email" type="text">
       {% csrf_token %}
     </form>
+  {% endif %}
   </nav>
   {% if messages %}
     {% for message in messages %}
