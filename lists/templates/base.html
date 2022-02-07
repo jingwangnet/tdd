@@ -11,7 +11,7 @@
     <a class="nav-bar" href="{% url 'index' %}">Superlists</a>
   {% if user.email %}
     <ul>       
-      <li>Logiged in as {{ user.email }}</li>
+      <li>Log in as {{ user.email }}</li>
       <li><a href="{% url 'accounts:logout' %}">Log out</a></li>
     </ul>
 

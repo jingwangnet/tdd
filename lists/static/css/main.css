@@ -21,11 +21,17 @@ body > nav {
     padding: 1rem;
 }
 
-body > nav form {
+body > nav >  ul {
+    margin: 0;
+    text-align: right;
+    list-style: none;
+}
+body > nav >  form, body > nav >  ul {
     margin-left: auto;
 }
 
-body > nav  a {
+
+body > nav > a {
     text-decoration: none;
     font-size: 1.5rem;
     font-weight: bold;
